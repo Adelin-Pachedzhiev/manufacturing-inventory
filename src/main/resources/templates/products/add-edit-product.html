@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <title>Create/Edit Product</title>
+</head>
+
+<body>
+    <div class="container mb-4">
+        <h3>Products</h3>
+        <hr>
+        <p class="h4 mb-4" >Create/Edit Product</p>
+        <form action="#" th:action="@{/products/save}" th:object="${product}" method="POST">
+            <div class="mb-3 w-25 alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+                <ul>
+                    <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+                </ul>
+            </div>
+            <input type="hidden" th:field="*{id}">
+
+            <div class="mb-3 w-25">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" th:field="*{name}" class="form-control" id="name">
+            </div>
+
+            <div class="mb-3 w-25">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" th:field="*{description}" class="form-control" id="description">
+            </div>
+
+            <div class="form-check mb-4 w-25">
+                <input class="form-check-input" type="checkbox" id="canBeSold" th:field="*{canBeSold}">
+                <label class="form-check-label" for="canBeSold">Product can be sold</label>
+            </div>
+
+            <div class="form-check mb-4 w-25">
+                <input class="form-check-input" type="checkbox" id="canBePurchased" th:field="*{canBePurchased}">
+                <label class="form-check-label" for="canBeSold">Product can be purchased</label>
+            </div>
+
+            <div class="mb-3 w-25">
+                <label for="salesPrice" class="form-label">Sales Price</label>
+                <input type="number" th:field="*{salesPrice}" class="form-control" id="salesPrice" step="any">
+            </div>
+
+            <div class="mb-3 w-25">
+                <label for="cost" class="form-label">Cost</label>
+                <input type="number" th:field="*{cost}" class="form-control" id="cost" step="any">
+            </div>
+            <div class="mb-3 w-25">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" th:field="*{quantity}" class="form-control" id="quantity" step="1">
+            </div>
+
+            <div class="mb-3 w-25">
+                <label for="barcode" class="form-label">Barcode</label>
+                <input type="text" th:field="*{barcode}" class="form-control" id="barcode">
+            </div>
+
+            <div class="mb-3 w-25">
+                <label for="unitOfMeasure" class="form-label">Unit of Measure</label>
+                <select th:field="*{unitOfMeasure.id}" class="form-select" id="unitOfMeasure">
+                    <option th:each="unitOfMeasure : ${unitsOfMeasure}" th:value="${unitOfMeasure.id}"
+                        th:selected="${unitOfMeasure.id eq product.unitOfMeasure.id}" th:text="${unitOfMeasure.unit}">
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3 w-25">
+                <label for="category" class="form-label">Category</label>
+                <select th:field="*{category.id}" class="form-select" id="category">
+                    <option th:each="category : ${productCategories}" th:value="${category.id}"
+                        th:selected="${category.id eq product.category.id}" th:text="${category.name}"></option>
+                </select>
+            </div>
+
+
+            <button type="submit" class="btn btn-info col-2">Save</button>
+        </form>
+        <hr>
+        <a class="btn btn-secondary btn-sm" th:href="@{/products/allProducts}">Back to Products List</a>
+    </div>
+</body>
+
+</html>
